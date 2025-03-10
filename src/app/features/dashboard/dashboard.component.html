@@ -1,0 +1,75 @@
+<div class="wrapper" [ngClass]="{ 'sidebar-open': isSidebarOpen }">
+  <div class="dashboard-container">
+    <div class="stats-container">
+      <div class="stats-box" *ngFor="let data of jonadata">
+        <p class="stats-number">{{ data.count }}</p>
+        <p class="stats-text">{{ data.label }}</p>
+      </div>
+      <!-- <div class="stats-box">
+        <p class="stats-number">99</p>
+        <p class="stats-text">Number of Desktops</p>
+      </div>
+      <div class="stats-box">
+        <p class="stats-number">99</p>
+        <p class="stats-text">Number of Users</p>
+      </div>
+      <div class="stats-box">
+        <p class="stats-number">99</p>
+        <p class="stats-text">Number of Device Parts</p>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="parent-container">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Laptop ID</th>
+            <th>Assigned Personnel</th>
+            <th>Purchase Date</th>
+            <th>Laptop Age</th>
+            <th>Location</th>
+            <th>Condition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mockdata; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <select title="employee">
+                <option
+                  *ngFor="let employee of vincedata"
+                  [value]="employee.uid"
+                  [selected]="item.uid === employee.uid"
+                >
+                  {{ employee.name }}
+                </option>
+              </select>
+
+              <!-- {{ item.assigned_personel }} -->
+            </td>
+            <td>{{ item.purchase_date }}</td>
+            <td>{{ item.laptop_age }}</td>
+            <td>
+              <!-- <select title="employee">
+                <option>1NK Center</option>
+                <option>2nd Office</option>
+                <option>Warehouse</option>
+              </select> -->
+              {{ item.location }}
+            </td>
+            <td>
+              <!-- <select>
+                <option>Working</option>
+                <option>Brand New</option>  
+                <option>Broken</option>
+              </select> -->
+              {{ item.condition }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
