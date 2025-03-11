@@ -1,13 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { ModalComponent } from "../../core/modal/modal.component";
-import { CommonModule } from "@angular/common";
-import { FeaturesService } from "../features.service";
-import { MatIconModule } from "@angular/material/icon";
-import { MatTableModule } from "@angular/material/table";
-import { MatButtonModule } from "@angular/material/button";
-import { MatSelectModule } from "@angular/material/select";
-import { MatDialogModule } from "@angular/material/dialog";
-import { FormsModule,  } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { ModalComponent } from '../../core/modal/modal.component';
+import { CommonModule } from '@angular/common';
+import { FeaturesService } from '../features.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { UpdatesComponent } from '../../core/updates/updates.component';
+import { DeleteComponent } from '../../core/delete/delete.component';
 
 interface Laptop {
   laptopName: string;
@@ -20,9 +22,11 @@ interface Laptop {
 }
 
 @Component({
-  selector: "app-laptop",
+  selector: 'app-laptop',
   imports: [
     ModalComponent,
+    UpdatesComponent,
+    DeleteComponent,
     CommonModule,
     MatIconModule,
     MatTableModule,
@@ -30,22 +34,21 @@ interface Laptop {
     MatSelectModule,
     MatDialogModule,
     FormsModule,
-    
   ],
-  templateUrl: "./laptop.component.html",
-  styleUrl: "./laptop.component.css",
+  templateUrl: './laptop.component.html',
+  styleUrl: './laptop.component.css',
   standalone: true,
 })
 export class LaptopComponent implements OnInit {
   displayedColumns: string[] = [
-    "laptopName",
-    "laptopSerialNumber",
-    "laptopDescription",
-    "laptopPurchaseDate",
-    "laptopLocation",
-    "assignedTo",
-    "laptopCondition",
-    "actions",
+    'laptopName',
+    'laptopSerialNumber',
+    'laptopDescription',
+    'laptopPurchaseDate',
+    'laptopLocation',
+    'assignedTo',
+    'laptopCondition',
+    'actions',
   ];
 
   laptops: Laptop[] = [];
@@ -89,13 +92,16 @@ export class LaptopComponent implements OnInit {
   //   },
   // ];
   isModalOpen = false;
-  searchKeyword = "";
+  isEditModalOpen = false;
+  isDeleteModalOpen = false;
+  searchKeyword = '';
   pageNo = 1;
   pageSize = 10;
-isEditMode: any;
+  isEditMode: any;
+  selectedLaptop: any = {}; // Ensure it's never undefined
 
-employees: any[] = []; // Store employee data
-employeeMap: { [key: string]: string } = {}; // Map for quick lookup
+  employees: any[] = []; // Store employee data
+  employeeMap: { [key: string]: string } = {}; // Map for quick lookup
 
   constructor(private FeaturesService: FeaturesService) {}
 
@@ -110,9 +116,9 @@ employeeMap: { [key: string]: string } = {}; // Map for quick lookup
         this.laptops = response.filter((laptop: Laptop) =>
           this.filterLaptops(laptop)
         );
-        console.log("Filtered Laptops:", this.laptops);
+        console.log('Filtered Laptops:', this.laptops);
       },
-      error: (error) => console.error("Error fetching laptops:", error),
+      error: (error) => console.error('Error fetching laptops:', error),
     });
   }
 
@@ -120,34 +126,36 @@ employeeMap: { [key: string]: string } = {}; // Map for quick lookup
   getEmployees(): void {
     this.FeaturesService.getAllEmployee().subscribe({
       next: (response: { _id: string; employeeName: string }[]) => {
-        console.log("Employees response:", response); // Debugging log
+        console.log('Employees response:', response); // Debugging log
 
         this.employees = response;
         this.employeeMap = response.reduce(
-          (map: { [key: string]: string }, employee: { _id: string; employeeName: string }) => {
+          (
+            map: { [key: string]: string },
+            employee: { _id: string; employeeName: string }
+          ) => {
             map[employee._id] = employee.employeeName; // Assign employee name to the map
             return map;
           },
           {}
         );
-        console.log("Employee Map:", this.employeeMap); // Debugging log
-
+        console.log('Employee Map:', this.employeeMap); // Debugging log
       },
-      error: (error) => console.error("Error fetching employees:", error),
+      error: (error) => console.error('Error fetching employees:', error),
     });
   }
-  
-// Helper method to get Employee Name from ID
-getEmployeeName(_id: string): string {
-  return this.employeeMap[_id] || "Unknown";
-}
-  
+
+  // Helper method to get Employee Name from ID
+  getEmployeeName(_id: string): string {
+    return this.employeeMap[_id] || 'Unknown';
+  }
+
   // Search filter function
   filterLaptops(laptop: Laptop): boolean {
     if (!this.searchKeyword.trim()) {
       return true; // If no search keyword, return all laptops
     }
-  
+
     const keyword = this.searchKeyword.trim().toLowerCase();
     return (
       laptop.laptopName.toLowerCase().includes(keyword) ||
@@ -158,7 +166,6 @@ getEmployeeName(_id: string): string {
       laptop.laptopCondition.toLowerCase().includes(keyword)
     );
   }
-  
 
   // getLaptops(): void {
   //   const keyword = this.searchKeyword.trim().toLowerCase();
@@ -219,13 +226,37 @@ getEmployeeName(_id: string): string {
   //   }
   // }
 
-  openModal(): void {
+  openModal(laptop?: any) {
     this.isModalOpen = true;
+    if (laptop) {
+      // handle the laptop data
+    }
   }
-
   closeModal(): void {
     this.isModalOpen = false;
     this.getLaptops();
+  }
+
+  openEditModal(laptop?: any) {
+    console.log('Edit button clicked'); // Check if function is triggered
+    this.isEditModalOpen = true;
+    this.selectedLaptop = laptop; // Store the selected laptop
+    console.log('Selected Laptop:', this.selectedLaptop);
+  }
+
+  closeEditModal(): void {
+    this.isEditModalOpen = false;
+  }
+
+  openDeleteModal(laptop?: any) {
+    console.log('Delete button clicked'); // Check if function is triggered
+    this.isDeleteModalOpen = true;
+    this.selectedLaptop = laptop; // Store the selected laptop
+    console.log('Selected Laptop:', this.selectedLaptop);
+  }
+
+  closeDeleteModal(): void {
+    this.isDeleteModalOpen = false;
   }
 
   onSearch(): void {
@@ -234,7 +265,7 @@ getEmployeeName(_id: string): string {
   }
 
   clearSearch(): void {
-    this.searchKeyword = "";
+    this.searchKeyword = '';
     // this.getLaptops();
   }
 }

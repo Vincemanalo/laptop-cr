@@ -15,7 +15,12 @@ interface Employee {
 
 @Component({
   selector: "app-modal",
-  imports: [ReactiveFormsModule, CommonModule, MatIconModule, FormsModule],
+  imports: [
+    ReactiveFormsModule, 
+    CommonModule, 
+    MatIconModule, 
+    FormsModule
+  ],
   templateUrl: "./modal.component.html",
   styleUrls: ["./modal.component.css"],
   standalone: true,

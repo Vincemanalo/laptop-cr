@@ -2,26 +2,26 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
-} from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { catchError, map, Observable, retry, throwError } from "rxjs";
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { catchError, map, Observable, retry, throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class FeaturesService {
-  private baseUrl = "http://10.0.0.27:3000"; 
-  
-  // private baseUrl = "https://67ce827a125cd5af757abfbb.mockapi.io/device/laptop";  
+  private baseUrl = 'http://10.0.0.31:3000';
+
+  // private baseUrl = "https://67ce827a125cd5af757abfbb.mockapi.io/device/laptop";
 
   constructor(private http: HttpClient) {}
 
   addLaptop(laptop: any): Observable<any> {
-    const token   = sessionStorage.getItem("auth_token");
+    const token = sessionStorage.getItem('auth_token');
     const options = {
       headers: new HttpHeaders({
-        "Content-Type": "application/json",
-        Authorization: `${token}`, 
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
       }),
     };
 
@@ -31,38 +31,42 @@ export class FeaturesService {
   }
 
   getAllLaptop(): Observable<any> {
-    const token = sessionStorage.getItem("auth_token");
+    const token = sessionStorage.getItem('auth_token');
     const options = {
       headers: new HttpHeaders({
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       }),
     };
 
-    return this.http
-      .get<any>(`${this.baseUrl}/device/laptop`, options)
-      .pipe(map((data: any) => data), retry(3), catchError(this.handleError));
+    return this.http.get<any>(`${this.baseUrl}/device/laptop`, options).pipe(
+      map((data: any) => data),
+      retry(3),
+      catchError(this.handleError)
+    );
   }
 
   getAllEmployee(): Observable<any> {
-    const token = sessionStorage.getItem("auth_token");
+    const token = sessionStorage.getItem('auth_token');
     const options = {
       headers: new HttpHeaders({
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       }),
     };
 
-    return this.http
-      .get<any>(`${this.baseUrl}/user/employee`, options)
-      .pipe(map((data: any) => data), retry(3), catchError(this.handleError));
+    return this.http.get<any>(`${this.baseUrl}/user/employee`, options).pipe(
+      map((data: any) => data),
+      retry(3),
+      catchError(this.handleError)
+    );
   }
 
   getLaptopById(id: number): Observable<any> {
-    const token = sessionStorage.getItem("auth_token");
+    const token = sessionStorage.getItem('auth_token');
     const options = {
       headers: new HttpHeaders({
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       }),
     };
@@ -73,53 +77,57 @@ export class FeaturesService {
   }
 
   updateLaptop(id: number, laptop: any): Observable<any> {
-    const token = sessionStorage.getItem("auth_token");
+    const token = sessionStorage.getItem('auth_token');
     const options = {
       headers: new HttpHeaders({
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       }),
     };
 
     return this.http
-      .put<any>(`${this.baseUrl}/${id}`, laptop, options)
+      .put<any>(`${this.baseUrl}/device/laptop/${id}`, laptop, options)
       .pipe(retry(3), catchError(this.handleError));
   }
 
   disableLaptop(id: number): Observable<any> {
-    const token = sessionStorage.getItem("auth_token");
+    const token = sessionStorage.getItem('auth_token');
     const options = {
       headers: new HttpHeaders({
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       }),
     };
 
     return this.http
-      .patch<any>(`${this.baseUrl}/${id}`, { status: "disabled" }, options)
+      .patch<any>(`${this.baseUrl}/${id}`, { status: 'disabled' }, options)
       .pipe(retry(3), catchError(this.handleError));
   }
 
   deleteLaptop(id: number): Observable<any> {
-    const token = sessionStorage.getItem("auth_token");
+    const token = sessionStorage.getItem('auth_token');
     const options = {
       headers: new HttpHeaders({
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       }),
     };
 
     return this.http
-      .delete<any>(`${this.baseUrl}/${id}`, options)
+      .put<any>(`${this.baseUrl}/${id}`, options)
       .pipe(retry(3), catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
-      console.error("An error occurred:", error.error.message);
+      console.error('An error occurred:', error.error.message);
     } else {
-      console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+      console.error(
+        `Backend returned code ${error.status}, body was: ${error.error}`
+      );
     }
-    return throwError(() => new Error("Something bad happened; please try again later."));
+    return throwError(
+      () => new Error('Something bad happened; please try again later.')
+    );
   }
 }

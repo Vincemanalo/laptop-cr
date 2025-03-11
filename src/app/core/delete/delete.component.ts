@@ -1,0 +1,140 @@
+import {
+  Component,
+  EventEmitter,
+  Output,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FeaturesService } from '../../features/features.service';
+
+interface Employee {
+  _id: string;
+  employeeName: string;
+  employmentDate: Date;
+  employmentPeriod: string;
+  status: string;
+}
+
+@Component({
+  selector: 'app-delete',
+  imports: [ReactiveFormsModule, CommonModule, MatIconModule, FormsModule],
+  templateUrl: './delete.component.html',
+  styleUrl: './delete.component.css',
+  standalone: true,
+})
+export class DeleteComponent implements OnChanges {
+  @Input() selectedLaptop: any = {}; // Receive data from parent component
+  @Output() closeModalEvent = new EventEmitter<void>();
+  employees: Employee[] = []; // Store employees data
+  selectedEmployeeId: string = ''; // Store selected employee ID
+
+  deleteLaptopForm: FormGroup;
+  isDeleteModalOpen: boolean = true;
+  isAddEmployeeOpen: boolean = false; // For Add Employee modal
+  newEmployee: string = '';
+
+  locations: string[] = ['New Office', '1NK Center']; // Example locations
+  ngOnInit(): void {
+    this.getEmployees();
+  }
+
+  // Fetch employees from backend
+  getEmployees(): void {
+    this.featuresService.getAllEmployee().subscribe({
+      next: (response) => {
+        this.employees = response;
+        console.log('Employees fetched:', this.employees);
+      },
+      error: (error) => console.error('Error fetching employees:', error),
+    });
+  }
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private featuresService: FeaturesService
+  ) {
+    this.deleteLaptopForm = this.fb.group({
+      _id: [''], // Hidden field to store laptop ID
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['selectedLaptop'] && this.selectedLaptop) {
+      this.deleteLaptopForm.patchValue({
+        _id: this.selectedLaptop._id, // Set the ID in the form
+      });
+    }
+  }
+
+  updateForm() {
+    if (this.selectedLaptop) {
+      this.deleteLaptopForm.patchValue({
+        laptopName: this.selectedLaptop.laptopName || '',
+        laptopSerialNumber: this.selectedLaptop.laptopSerialNumber || '',
+        laptopDescription: this.selectedLaptop.laptopDescription || '',
+        laptopPurchaseDate: this.selectedLaptop.laptopPurchaseDate || '',
+        laptopLocation: this.selectedLaptop.laptopLocation || '',
+        assignedTo: this.selectedLaptop.assignedTo || '',
+        laptopCondition: this.selectedLaptop.laptopCondition || '',
+      });
+    }
+  }
+
+  closeModal() {
+    this.isDeleteModalOpen = false;
+    this.closeModalEvent.emit();
+  }
+
+  onAssignedChange(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    if (selectedValue === 'add') {
+      this.openAddEmployeeModal();
+    } else {
+      this.selectedEmployeeId = selectedValue;
+    }
+  }
+
+  openAddEmployeeModal() {
+    this.isAddEmployeeOpen = true;
+  }
+
+  closeAddEmployeeModal() {
+    this.isAddEmployeeOpen = false;
+    this.newEmployee = '';
+  }
+
+  addEmployee() {
+    if (this.newEmployee) {
+      // Add new employee logic here
+      console.log('New Employee:', this.newEmployee);
+      this.closeAddEmployeeModal();
+    }
+  }
+
+  onSubmit() {
+    const laptopId = this.deleteLaptopForm.value._id;
+    console.log('Deleting Laptop with ID:', laptopId);
+
+    this.featuresService.deleteLaptop(laptopId).subscribe({
+      next: (response) => {
+        console.log('Laptop deleted successfully:', response);
+        this.closeModal(); // Close modal after deletion
+      },
+      error: (error) => {
+        console.error('Error deleting laptop:', error);
+      },
+    });
+  }
+}
