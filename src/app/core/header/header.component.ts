@@ -73,8 +73,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
   selector: 'app-header',
   standalone: true,
   imports: [
-  
-  CommonModule,
+    CommonModule,
     RouterModule,
     MatSidenavModule,
     MatToolbarModule,

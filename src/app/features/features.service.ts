@@ -45,7 +45,7 @@ export class FeaturesService {
       catchError(this.handleError)
     );
   }
-
+  
   getAllEmployee(): Observable<any> {
     const token = sessionStorage.getItem('auth_token');
     const options = {

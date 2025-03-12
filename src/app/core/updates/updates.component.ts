@@ -93,6 +93,7 @@ export class UpdatesComponent implements OnChanges {
         laptopLocation: this.selectedLaptop.laptopLocation || '',
         assignedTo: this.selectedLaptop.assignedTo || '',
         laptopCondition: this.selectedLaptop.laptopCondition || '',
+      
       });
     }
   }

@@ -111,6 +111,35 @@ export class LaptopComponent implements OnInit {
   }
 
   getLaptops(): void {
+    this.laptops = [
+      {
+        laptopName: 'HP Inspiron 3501 Series',
+        laptopSerialNumber: '7KJ2PH3',
+        laptopDescription: 'New Laptop Dell (Mat Black)',
+        laptopPurchaseDate: new Date('December 20, 2021'),
+        laptopLocation: '1NK Center',
+        assignedTo: 'Sir Benjie',
+        laptopCondition: 'Working',
+      },
+      {
+        laptopName: 'Acer Inspiron 3501 Series',
+        laptopSerialNumber: '7KJ2PH3',
+        laptopDescription: 'New Laptop Dell (Mat Black)',
+        laptopPurchaseDate: new Date('December 20, 2021'),
+        laptopLocation: '1NK Center',
+        assignedTo: 'Sir Benjie',
+        laptopCondition: 'Working',
+      },
+      {
+        laptopName: 'Lenovo Inspiron 3501 Series',
+        laptopSerialNumber: '7KJ2PH3',
+        laptopDescription: 'New Laptop Dell (Mat Black)',
+        laptopPurchaseDate: new Date('December 20, 2021'),
+        laptopLocation: '1NK Center',
+        assignedTo: 'Sir Benjie',
+        laptopCondition: 'Working',
+      },
+    ];
     this.FeaturesService.getAllLaptop().subscribe({
       next: (response) => {
         this.laptops = response.filter((laptop: Laptop) =>

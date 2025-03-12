@@ -1,67 +1,111 @@
-<!-- <main class="user-management">
-    <div class="search-container">
-      <input
-        matInput
-        type="text"
-        placeholder="Search..."
-        class="search-input"
-        [(ngModel)]="searchKeyword"
-      />
-      <button class="search-btn" (click)="onSearch()">
-        <mat-icon class="search-btn" fontIcon="search"></mat-icon>
-      </button>
+<main id="main-content">
+  <section class="table-add-laptop">
+    <div class="parent-container">
+      <div class="dashboard-card">
+        <div class="toolbar">
+          <button id="open-modal" class="add-button" (click)="openModal()">
+            <mat-icon
+              aria-hidden="false"
+              aria-label="Example home icon"
+              fontIcon="add_circle"
+            ></mat-icon>
+            <p>Add Employee</p>
+          </button>
+          <div class="search-container">
+            <input
+              matInput
+              type="text"
+              placeholder="Search..."
+              class="search-input"
+              [(ngModel)]="searchKeyword"
+            />
+            <button class="search-btn" (click)="onSearch()">
+              <mat-icon
+                class="search-btn"
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="search"
+              ></mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table mat-table class="mat-elevation-z8" [dataSource]="employees">
+            <ng-container matColumnDef="employee">
+              <th mat-header-cell *matHeaderCellDef>Employee</th>
+              <td mat-cell *matCellDef="let employee">
+                {{ employee.employee }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="employmentDate">
+              <th mat-header-cell *matHeaderCellDef>Employment Date</th>
+              <td mat-cell *matCellDef="let employee">
+                {{ employee.employmentDate | date : "mediumDate" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let employee">
+                {{ employee.email }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="contact">
+              <th mat-header-cell *matHeaderCellDef>Contact</th>
+              <td mat-cell *matCellDef="let employee">
+                {{ employee.contact }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="position">
+              <th mat-header-cell *matHeaderCellDef>Position</th>
+              <td mat-cell *matCellDef="let employee">
+                {{ employee.position }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="address">
+              <th mat-header-cell *matHeaderCellDef>Address</th>
+              <td mat-cell *matCellDef="let employee">
+                {{ employee.address }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="teamcolor">
+              <th mat-header-cell *matHeaderCellDef>Team Color</th>
+              <td mat-cell *matCellDef="let employee">
+                {{ employee.teamcolor }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let employees">
+                <button
+                  mat-button
+                  color="primary"
+                  (click)="openaddempModal(employees)"
+                >
+                  Edit
+                </button>
+                <button
+                  mat-button
+                  color="primary"
+                  (click)="openeditempModal(employees)"
+                >
+                  Delete
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+      </div>
     </div>
-  
-    <div class="table-container">
-      <table mat-table class="mat-elevation-z8" [dataSource]="employees">
-        
-        <ng-container matColumnDef="Employee">
-          <th mat-header-cell *matHeaderCellDef>Employee</th>
-          <td mat-cell *matCellDef="let employee">{{ employee.name }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="Employment Date">
-          <th mat-header-cell *matHeaderCellDef>Employment Date</th>
-          <td mat-cell *matCellDef="let employee">{{ employee.employmentDate }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="Email">
-          <th mat-header-cell *matHeaderCellDef>Email</th>
-          <td mat-cell *matCellDef="let employee">{{ employee.email }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="Contact">
-          <th mat-header-cell *matHeaderCellDef>Contact</th>
-          <td mat-cell *matCellDef="let employee">{{ employee.contact }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="Position">
-          <th mat-header-cell *matHeaderCellDef>Position</th>
-          <td mat-cell *matCellDef="let employee">{{ employee.position }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="Address">
-          <th mat-header-cell *matHeaderCellDef>Address</th>
-          <td mat-cell *matCellDef="let employee">{{ employee.address }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="Team Color">
-          <th mat-header-cell *matHeaderCellDef>Team Color</th>
-          <td mat-cell *matCellDef="let employee">{{ employee.teamColor }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let employee">
-            <button mat-button color="primary" (click)="openModal()">Edit</button>
-          </td>
-        </ng-container>
-  
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-    </div>
-  
-    <app-modal *ngIf="isModalOpen" (closeModalEvent)="closeModal()"></app-modal>
-  </main>
-   -->
+  </section>
+  <app-modal *ngIf="isModalOpen" (closeModalEvent)="closeModal()"></app-modal>
+</main>
