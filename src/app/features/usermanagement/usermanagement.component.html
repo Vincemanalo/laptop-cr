@@ -86,14 +86,14 @@
                 <button
                   mat-button
                   color="primary"
-                  (click)="openaddempModal(employees)"
+                  (click)="openeditempModal(employees)"
                 >
                   Edit
                 </button>
                 <button
                   mat-button
                   color="primary"
-                  (click)="openeditempModal(employees)"
+                  (click)="openDeleteEmpModal(employees)"
                 >
                   Delete
                 </button>
@@ -106,6 +106,14 @@
         </div>
       </div>
     </div>
-  </section>
-  <app-modal *ngIf="isModalOpen" (closeModalEvent)="closeModal()"></app-modal>
+  </section> 
+  <app-addemp *ngIf="isModalOpen" (closeModalEvent)="closeModal()"></app-addemp>
+  <app-updatesemp
+    *ngIf="iseditempModalOpen"
+    (closeModalEvent)="iseditempModalOpen = false"
+></app-updatesemp>
+  <app-deleteemp  
+    *ngIf="isDeleteModalOpen"
+    (closeModalEvent)="isDeleteModalOpen = false"
+  ></app-deleteemp>
 </main>

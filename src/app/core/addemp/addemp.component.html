@@ -1,11 +1,11 @@
 <div class="modal" *ngIf="isModalOpen">
     <div class="modal-content">
       <span class="close-btn" (click)="closeModal()">×</span>
-      <h2>Employee Information</h2>
-      <form [formGroup]="editLaptopForm" (ngSubmit)="onSubmit()">
+      <h2>Add Employee</h2>
+      <form [formGroup]="editEmployeeForm" (ngSubmit)="onSubmit()">
         <div class="form-grid">
           <div class="form-group">
-            <label for="employeeName">Enter Employee name</label>
+            <label for="employeeName"> Employee name</label>
             <input
               id="employeeName"
               formControlName="employeeName"
@@ -24,37 +24,35 @@
             <label for="EmploymentDate">Employment Date</label>
             <input title="PD" type="date" id="EmploymentDate" formControlName="EmploymentDate" />
           </div>
-        </div>
-        <div class="form-group">
-          <label for="contact">Contact</label>
-          <input
-            type="number"
-            id="contact"
-            formControlName="contact"
-            placeholder="contact"
-          />
           <div class="form-group">
-            <label for="Position">position</label>
+            <label for="contact">Contact</label>
+            <input
+              type="number"
+              id="contact"
+              formControlName="contact"
+             placeholder="Contact Number"
+            />
+        </div>
+       
+          <div class="form-group">
+            <label for="Position">Position</label>
             <select title="LL" id="position" formControlName="position">
               <option>Secured Front-End Developer</option>
-              <option>New Office</option>
-              <option>Warehouse</option>
+              <option>chix</option>
+              <option>silog</option>
             </select>
           </div>
           <div class="form-group">
             <label for="assignedTo">Address</label>
-            <select title="AT"
+            <input title="AT"
               id="Address"
               formControlName="Address"
               (change)="onAssignedChange($event)"
               [(ngModel)]="selectedEmployeeId"
             >
-              <option *ngFor="let employee of employees" [value]="employee._id">
-                {{ employee.employeeName }}
-            </select>
           </div>
           <div class="form-group">
-            <label for="Position">Position</label>
+            <label for="Position">Team Color</label>
             <select title = "LC" id="Position" formControlName="Position">
               <option>Green Team</option>
               <option>Red Team</option>
@@ -65,7 +63,7 @@
           <button type="button" class="cancel-btn" (click)="closeModal()">
             Cancel
           </button>
-          <button type="submit" [disabled]="editLaptopForm.invalid">Add</button>
+          <button type="submit" [disabled]="editEmployeeForm.invalid">Add</button>
         </div>
       </form>
     </div>

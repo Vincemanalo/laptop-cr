@@ -37,7 +37,7 @@ export class DeleteComponent implements OnChanges {
   @Input() selectedLaptop: any = {}; // Receive data from parent component
   @Output() closeModalEvent = new EventEmitter<void>();
   employees: Employee[] = []; // Store employees data
-  selectedEmployeeId: string = ''; // Store selected employee ID
+  selectedEmployeeId: string = ''; 
 
   deleteLaptopForm: FormGroup;
   isDeleteModalOpen: boolean = true;
@@ -97,31 +97,21 @@ export class DeleteComponent implements OnChanges {
     this.closeModalEvent.emit();
   }
 
-  onAssignedChange(event: Event) {
-    const selectedValue = (event.target as HTMLSelectElement).value;
-    if (selectedValue === 'add') {
-      this.openAddEmployeeModal();
-    } else {
-      this.selectedEmployeeId = selectedValue;
-    }
-  }
+  // openAddEmployeeModal() {
+  //   this.isAddEmployeeOpen = true;
+  // }
 
-  openAddEmployeeModal() {
-    this.isAddEmployeeOpen = true;
-  }
+  // closeAddEmployeeModal() {
+  //   this.isAddEmployeeOpen = false;
+  //   this.newEmployee = '';
+  // }
 
-  closeAddEmployeeModal() {
-    this.isAddEmployeeOpen = false;
-    this.newEmployee = '';
-  }
-
-  addEmployee() {
-    if (this.newEmployee) {
-      // Add new employee logic here
-      console.log('New Employee:', this.newEmployee);
-      this.closeAddEmployeeModal();
-    }
-  }
+  // addEmployee() {
+  //   if (this.newEmployee) {
+  //     console.log('New Employee:', this.newEmployee);
+  //     this.closeAddEmployeeModal();
+  //   }
+  // }
 
   onSubmit() {
     const laptopId = this.deleteLaptopForm.value._id;

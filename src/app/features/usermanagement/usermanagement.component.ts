@@ -8,9 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
-import { UpdatesComponent } from '../../core/updates/updates.component';
-import { DeleteComponent } from '../../core/delete/delete.component';
 import { AddempComponent } from '../../core/addemp/addemp.component';
+import { UpdatesEmpComponent } from '../../core/updateemp/updateemp.component';
+import { DeleteEmpComponent } from '../../core/deleteemp/deleteemp.component';
 
 interface Employee {
   employee: string;
@@ -25,9 +25,8 @@ interface Employee {
 @Component({
   selector: 'app-usermanagement',
   imports: [
-    ModalComponent,
-    UpdatesComponent,
-    DeleteComponent,
+    UpdatesEmpComponent,
+    DeleteEmpComponent,
     CommonModule,
     MatIconModule,
     MatTableModule,
@@ -170,27 +169,27 @@ export class UserManagementComponent implements OnInit {
     ];
   }
 
-  //   getEmployees(): void {
-  //     this.FeaturesService.getAllEmployee().subscribe({
-  //       next: (response: { _id: string; employeeName: string }[]) => {
-  //         console.log('Employees response:', response);
+    getEmployeeid(): void {
+      this.FeaturesService.getAllEmployee().subscribe({
+        next: (response: { _id: string; employeeName: string }[]) => {
+          console.log('Employees response:', response);
 
-  //         this.employee = response;
-  //         this.employeeMap = response.reduce(
-  //           (
-  //             map: { [key: string]: string },
-  //             employee: { _id: string; employeeName: string }
-  //           ) => {
-  //             map[employee._id] = employee.employeeName;
-  //             return map;
-  //           },
-  //           {}
-  //         );
-  //         console.log('Employee Map:', this.employeeMap);
-  //       },
-  //       error: (error) => console.error('Error fetching employees:', error),
-  //     });
-  //   }
+          this.employee = response;
+          this.employeeMap = response.reduce(
+            (
+              map: { [key: string]: string },
+              employee: { _id: string; employeeName: string }
+            ) => {
+              map[employee._id] = employee.employeeName;
+              return map;
+            },
+            {}
+          );
+          console.log('Employee Map:', this.employeeMap);
+        },
+        error: (error) => console.error('Error fetching employees:', error),
+      });
+    }
 
   getEmployeeName(_id: string): string {
     return this.employeeMap[_id] || 'Unknown';
@@ -222,13 +221,6 @@ export class UserManagementComponent implements OnInit {
     this.getEmployees();
   }
 
-  openaddempModal(employee?: any) {
-    console.log('Edit button clicked'); // Check if function is triggered
-    this.isaddempModalOpen = true;
-    this.selectedemployee = employee; // Store the selected laptop
-    console.log('Selected employee:', this.selectedemployee);
-  }
-
   openeditempModal(employee?: any) {
     console.log('Edit button clicked'); // Check if function is triggered
     this.iseditempModalOpen = true;
@@ -242,6 +234,17 @@ export class UserManagementComponent implements OnInit {
 
   closeeditempModal(): void {
     this.iseditempModalOpen = false;
+  }
+
+  openDeleteEmpModal(employee?: any) {
+    console.log('Delete button clicked'); // Check if function is triggered
+    this.isDeleteModalOpen = true;
+    this.selectedemployee = employee; // Store the selected laptop
+    console.log('Selected Laptop:', this.selectedemployee);
+  }
+
+  closeDeleteEmpModal(): void {
+    this.isDeleteModalOpen = false;
   }
 
   onSearch(): void {
