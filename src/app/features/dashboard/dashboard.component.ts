@@ -49,23 +49,23 @@ export class DashboardComponent {
   vincedata: any[] = [
     {
       uid: 12,
-      name: "cer jons",
+      name: "Beverly Dadis",
     },
     {
       uid: 13,
-      name: "Justmyr cutie",
+      name: "Kim carl Buban",
     },
     {
       uid: 14,
-      name: "bolbi si kim carl",
+      name: "Cedric Lunar",
     },
     {
       uid: 15,
-      name: " when u kim",
+      name: " Justmyr Gutierrez",
     },
     {
       uid: 16,
-      name: "justmyr mapagmahal",
+      name: "Reymart Castillo",
     },
   ];
 
