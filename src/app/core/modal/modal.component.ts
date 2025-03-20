@@ -1,9 +1,15 @@
-import { Component, EventEmitter, Output } from "@angular/core";
-import { MatIconModule } from "@angular/material/icon";
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { CommonModule } from "@angular/common";
-import { FeaturesService } from "../../features/features.service";
+import { Component, EventEmitter, Output } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FeaturesService } from '../../features/features.service';
 
 interface Employee {
   _id: string;
@@ -14,43 +20,36 @@ interface Employee {
 }
 
 @Component({
-  selector: "app-modal",
-  imports: [
-    ReactiveFormsModule, 
-    CommonModule, 
-    MatIconModule, 
-    FormsModule
-  ],
-  templateUrl: "./modal.component.html",
-  styleUrls: ["./modal.component.css"],
+  selector: 'app-modal',
+  imports: [ReactiveFormsModule, CommonModule, MatIconModule, FormsModule],
+  templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.css'],
   standalone: true,
 })
 export class ModalComponent {
   @Output() closeModalEvent = new EventEmitter<void>();
   employees: Employee[] = []; // Store employees data
-  selectedEmployeeId: string = ""; // Store selected employee ID
+  selectedEmployeeId: string = ''; // Store selected employee ID
 
   editLaptopForm: FormGroup;
   isModalOpen: boolean = true;
   isAddEmployeeOpen: boolean = false; // For Add Employee modal
-  newEmployee: string = "";
-
+  newEmployee: string = '';
 
   ngOnInit(): void {
     this.getEmployees();
   }
 
   // Fetch employees from backend
-getEmployees(): void {
-  this.featuresService.getAllEmployee().subscribe({
-    next: (response) => {
-      this.employees = response;
-      console.log("Employees fetched:", this.employees);
-    },
-    error: (error) => console.error("Error fetching employees:", error),
-  });
-}
-
+  getEmployees(): void {
+    this.featuresService.getAllEmployee().subscribe({
+      next: (response) => {
+        this.employees = response.employees;
+        console.log('Employees fetched:', this.employees);
+      },
+      error: (error) => console.error('Error fetching employees:', error),
+    });
+  }
 
   // employees: string[] = [
   //   "67c5515be20a687c69e00b6c",
@@ -61,7 +60,7 @@ getEmployees(): void {
   //   "John Kenneth Fajiculay",
   //   "Cheli Ann",
   //   "Beverly Dadis"
-    
+
   // ];
 
   constructor(
@@ -70,13 +69,13 @@ getEmployees(): void {
     private featuresService: FeaturesService
   ) {
     this.editLaptopForm = this.fb.group({
-      laptopName: ["", Validators.required],
-      laptopSerialNumber: ["", Validators.required],
-      laptopDescription: ["", [Validators.maxLength(50)]],
-      laptopPurchaseDate: ["", Validators.required],
-      laptopLocation: ["", Validators.required],
-      assignedTo: [""],
-      laptopCondition: ["", Validators.required],
+      laptopName: ['', Validators.required],
+      laptopSerialNumber: ['', Validators.required],
+      laptopDescription: ['', [Validators.maxLength(50)]],
+      laptopPurchaseDate: ['', Validators.required],
+      laptopLocation: ['', Validators.required],
+      assignedTo: [''],
+      laptopCondition: ['', Validators.required],
     });
   }
 
@@ -88,7 +87,7 @@ getEmployees(): void {
 
   onAssignedChange(event: Event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
-    if (selectedValue === "add") {
+    if (selectedValue === 'add') {
       this.openAddEmployeeModal();
     }
   }
@@ -99,7 +98,7 @@ getEmployees(): void {
 
   closeAddEmployeeModal() {
     this.isAddEmployeeOpen = false;
-    this.newEmployee = "";
+    this.newEmployee = '';
   }
 
   // addEmployee() {
@@ -112,15 +111,15 @@ getEmployees(): void {
   onSubmit() {
     if (this.editLaptopForm.valid) {
       const laptopData = this.editLaptopForm.value;
-      console.log("Submitting:", laptopData);
+      console.log('Submitting:', laptopData);
 
       this.featuresService.addLaptop(laptopData).subscribe({
         next: (response) => {
-          console.log("Laptop added successfully:", response);
+          console.log('Laptop added successfully:', response);
           this.closeModal();
         },
         error: (error) => {
-          console.error("Error adding laptop:", error);
+          console.error('Error adding laptop:', error);
         },
       });
     }

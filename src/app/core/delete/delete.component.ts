@@ -36,8 +36,9 @@ interface Employee {
 export class DeleteComponent implements OnChanges {
   @Input() selectedLaptop: any = {}; // Receive data from parent component
   @Output() closeModalEvent = new EventEmitter<void>();
+  @Output() refreshTableEvent = new EventEmitter<void>(); // Emit event to p
   employees: Employee[] = []; // Store employees data
-  selectedEmployeeId: string = ''; 
+  selectedEmployeeId: string = '';
 
   deleteLaptopForm: FormGroup;
   isDeleteModalOpen: boolean = true;
@@ -95,6 +96,7 @@ export class DeleteComponent implements OnChanges {
   closeModal() {
     this.isDeleteModalOpen = false;
     this.closeModalEvent.emit();
+    this.refreshTableEvent.emit();
   }
 
   // openAddEmployeeModal() {

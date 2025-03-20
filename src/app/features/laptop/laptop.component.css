@@ -267,7 +267,7 @@ th:last-child {
   padding: 10px 10px;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 10px;
+  font-size: 10px;  
   flex-direction: column;
   margin: 5px auto 5px 0;
 }
@@ -307,7 +307,7 @@ th:last-child {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: transparent;
+  background: transparent;  
   border: none;
   font-size: 1.5rem;
   cursor: pointer;

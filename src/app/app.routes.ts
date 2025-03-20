@@ -6,9 +6,9 @@ import { LaptopComponent } from './features/laptop/laptop.component';
 import { UserManagementComponent } from './features/usermanagement/usermanagement.component';
 
 export const routes: Routes = [
-  {
+{
     path: '',
-    redirectTo: 'login',
+    redirectTo:   'login',
     pathMatch: 'full',
   },
   { path: 'login', component: LoginComponent },

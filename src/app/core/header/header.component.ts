@@ -86,13 +86,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  isMobile = window.innerWidth < 768; // ✅ Detect initial screen size
-  // ✅ Update `isMobile` on window resize
+  isMobile = window.innerWidth < 768; 
+  
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.isMobile = event.target.innerWidth < 768;
   }
   toggleSidenav() {
-    // Implement sidenav toggle logic if needed
+  
   }
 }

@@ -10,7 +10,7 @@ import { catchError, map, Observable, retry, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class FeaturesService {
-  private baseUrl = 'http://10.0.0.32:3000';
+  private baseUrl = 'http://10.0.0.33:3000';
 
   // private baseUrl = "https://67ce827a125cd5af757abfbb.mockapi.io/device/laptop";
 
@@ -45,7 +45,7 @@ export class FeaturesService {
       catchError(this.handleError)
     );
   }
-  
+
   addEmployee(laptop: any): Observable<any> {
     const token = sessionStorage.getItem('auth_token');
     const options = {
@@ -60,7 +60,6 @@ export class FeaturesService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
-
   getAllEmployee(): Observable<any> {
     const token = sessionStorage.getItem('auth_token');
     const options = {
@@ -70,14 +69,12 @@ export class FeaturesService {
       }),
     };
 
-    
     return this.http.get<any>(`${this.baseUrl}/user/employee`, options).pipe(
       map((data: any) => data),
       retry(3),
       catchError(this.handleError)
     );
   }
-  
 
   getLaptopById(id: number): Observable<any> {
     const token = sessionStorage.getItem('auth_token');
@@ -133,20 +130,6 @@ export class FeaturesService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
-  disableLaptop(id: number): Observable<any> {
-    const token = sessionStorage.getItem('auth_token');
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      }),
-    };
-
-    return this.http
-      .patch<any>(`${this.baseUrl}/${id}`, { status: 'disabled' }, options)
-      .pipe(retry(3), catchError(this.handleError));
-  }
-
   deleteLaptop(id: number): Observable<any> {
     const token = sessionStorage.getItem('auth_token');
     const options = {
@@ -157,7 +140,7 @@ export class FeaturesService {
     };
 
     return this.http
-      .put<any>(`${this.baseUrl}/${id}`, options)
+      .patch<any>(`${this.baseUrl}/device/laptop/${id}`, options)
       .pipe(retry(3), catchError(this.handleError));
   }
 

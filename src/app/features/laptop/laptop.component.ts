@@ -110,47 +110,71 @@ export class LaptopComponent implements OnInit {
     this.getLaptops();
   }
 
+  // getLaptops(): void {
+  //   // this.laptops = [
+  //   //   {
+  //   //     laptopName: 'HP Inspiron 3501 Series',
+  //   //     laptopSerialNumber: '7KJ2PH3',
+  //   //     laptopDescription: 'New Laptop Dell (Mat Black)',
+  //   //     laptopPurchaseDate: new Date('December 20, 2021'),
+  //   //     laptopLocation: '1NK Center',
+  //   //     assignedTo: 'Sir Benjie',
+  //   //     laptopCondition: 'Working',
+  //   //   },
+  //   //   {
+  //   //     laptopName: 'Acer Inspiron 3501 Series',
+  //   //     laptopSerialNumber: '7KJ2PH3',
+  //   //     laptopDescription: 'New Laptop Dell (Mat Black)',
+  //   //     laptopPurchaseDate: new Date('December 20, 2021'),
+  //   //     laptopLocation: '1NK Center',
+  //   //     assignedTo: 'Sir Benjie',
+  //   //     laptopCondition: 'Working',
+  //   //   },
+  //   //   {
+  //   //     laptopName: 'Lenovo Inspiron 3501 Series',
+  //   //     laptopSerialNumber: '7KJ2PH3',
+  //   //     laptopDescription: 'New Laptop Dell (Mat Black)',
+  //   //     laptopPurchaseDate: new Date('December 20, 2021'),
+  //   //     laptopLocation: '1NK Center',
+  //   //     assignedTo: 'Sir Benjie',
+  //   //     laptopCondition: 'Working',
+  //   //   },
+  //   // ];
+  //   this.FeaturesService.getAllLaptop().subscribe({
+  //     next: (response) => {
+  //       this.laptops = response.filter((laptop: Laptop) =>
+  //         this.filterLaptops(laptop)
+  //       );
+  //       console.log('Filtered Laptops:', this.laptops);
+  //     },
+  //     error: (error) => console.error('Error fetching laptops:', error),
+  //   });
+  // }
+  // Map the API response to the Laptop interface and assign employee names
+  mapLaptops(response: any): Laptop[] {
+    return response.map((laptop: any) => ({
+      laptopName: laptop.laptopName,
+      laptopSerialNumber: laptop.laptopSerialNumber,
+      laptopDescription: laptop.laptopDescription,
+      laptopPurchaseDate: new Date(laptop.laptopPurchaseDate),
+      laptopLocation: laptop.laptopLocation,
+      assignedTo: this.getEmployeeName(laptop.assignedTo),
+      laptopCondition: laptop.laptopCondition,
+    }));
+  }
+
+  // Fetch laptops and map the response
   getLaptops(): void {
-    this.laptops = [
-      // {
-      //   laptopName: 'HP Inspiron 3501 Series',
-      //   laptopSerialNumber: '7KJ2PH3',
-      //   laptopDescription: 'New Laptop Dell (Mat Black)',
-      //   laptopPurchaseDate: new Date('December 20, 2021'),
-      //   laptopLocation: '1NK Center',
-      //   assignedTo: 'Sir Benjie',
-      //   laptopCondition: 'Working',
-      // },
-      // {
-      //   laptopName: 'Acer Inspiron 3501 Series',
-      //   laptopSerialNumber: '7KJ2PH3',
-      //   laptopDescription: 'New Laptop Dell (Mat Black)',
-      //   laptopPurchaseDate: new Date('December 20, 2021'),
-      //   laptopLocation: '1NK Center',
-      //   assignedTo: 'Sir Benjie',
-      //   laptopCondition: 'Working',
-      // },
-      // {
-      //   laptopName: 'Lenovo Inspiron 3501 Series',
-      //   laptopSerialNumber: '7KJ2PH3',
-      //   laptopDescription: 'New Laptop Dell (Mat Black)',
-      //   laptopPurchaseDate: new Date('December 20, 2021'),
-      //   laptopLocation: '1NK Center',
-      //   assignedTo: 'Sir Benjie',
-      //   laptopCondition: 'Working',
-      // },
-    ];
     this.FeaturesService.getAllLaptop().subscribe({
       next: (response) => {
-        this.laptops = response.filter((laptop: Laptop) =>
-          this.filterLaptops(laptop)
+        this.laptops = this.mapLaptops(response.laptops).filter(
+          (laptop: Laptop) => this.filterLaptops(laptop)
         );
         console.log('Filtered Laptops:', this.laptops);
       },
       error: (error) => console.error('Error fetching laptops:', error),
     });
   }
-
   // Fetch all employees and create a map of ID -> Name
   getEmployees(): void {
     this.FeaturesService.getAllEmployee().subscribe({
